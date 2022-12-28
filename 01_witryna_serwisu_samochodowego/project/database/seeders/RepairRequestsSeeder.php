@@ -5,14 +5,14 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class RequestsSeeder extends Seeder
+class RepairRequestsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('requests')->insert([
+        DB::table('repair_requests')->insert([
             'clientID' => 2,
             'title' => 'Wymiana opon',
             'model' => 'Passat',
