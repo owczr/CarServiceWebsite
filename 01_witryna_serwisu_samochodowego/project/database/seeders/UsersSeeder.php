@@ -21,21 +21,27 @@ class UsersSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'John Doe',
-            'email' => 'john.doe@gmail.com',
+            'name' => 'Client 1',
+            'email' => 'client1@gmail.com',
             'password' => bcrypt('secret'),
             'type' => 1,
             'phone' => '692137420',
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Dohn Joe',
-            'email' => 'dohn.joe@gmail.com',
+            'name' => 'Employee 1',
+            'email' => 'employee1@gmail.com',
             'password' => bcrypt('secret'),
             'type' => 2,
             'phone' => '123456789',
         ]);
 
-
+        DB::table('users')->insert([
+            'name' => 'Client 2',
+            'email' => 'client22@gmail.com',
+            'password' => bcrypt('secret'),
+            'type' => 1,
+            'phone' => '692137421',
+        ]);
     }
 }
