@@ -66,21 +66,39 @@ class RepairRequestController extends Controller
         return view('welcome');
     }
 
+    // Function to change status of selected request
+    public static function update_status(int $id, int $new_status): void
+    {
+        $request = RepairRequest::find($id);
+        $request->status = $new_status;
+        $request->save();
+    }
+
+    // Employee accepts request -> become an order
+    public function accept_request(RepairRequest $request): View
+    {
+        return view('requests.accept')->with('request', $request);
+    }
+
+    // User accepts new date - change status to 0 and redirect/view
     public function accept(RepairRequest $request): View
     {
         return view('welcome');
     }
 
+    // Employee responds with new date - new view with form
     public function respond(RepairRequest $request): View
     {
         return view('welcome');
     }
 
+    // Employee or user rejects request - simple function with redirect or view
     public function reject(RepairRequest $request): View
     {
         return view('welcome');
     }
 
+    // User creates new request - return view
     public function create(RepairRequest $request): View
     {
         return view('welcome');

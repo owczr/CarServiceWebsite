@@ -21,6 +21,7 @@ return new class () extends Migration {
             $table->string('images')->nullable();   // ???
             $table->dateTime('date')->nullable();
             $table->integer('status');
+            $table->timestamps();
         });
     }
 

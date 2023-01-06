@@ -99,7 +99,7 @@
                             @if($request->status == 0)
                                 <div class="bg-white px-4 pb-5 flex items-center justify-end mt-4">
 
-                                    <form method="get" action="{{ route('requests.accept', $request) }}">
+                                    <form method="get" action="{{ route('requests.accept_request', $request) }}">
                                         <x-primary-button class="ml-4 mb-4">
                                             {{ __('Accept') }}
                                         </x-primary-button>
