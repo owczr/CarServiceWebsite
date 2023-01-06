@@ -20,6 +20,7 @@ return new class () extends Migration {
             $table->integer('estDuration');
             $table->decimal('cost');
             $table->string('images')->nullable();
+            $table->timestamps();
         });
     }
 
