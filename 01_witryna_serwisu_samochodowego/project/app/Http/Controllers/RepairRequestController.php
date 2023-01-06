@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\RepairRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,6 @@ class RepairRequestController extends Controller
 
     public function index(): View
     {
-        $books = RepairRequest::all();
         $userID = Auth::id();
         $userType = User::where('ID', $userID)->value('type');
         switch($userType) {
@@ -33,6 +33,56 @@ class RepairRequestController extends Controller
                 $requests = RepairRequest::orderBy('id', 'desc')->get();
                 return view('requests.index_admin')->with('requests', $requests);
         }
+        return view('welcome');
+    }
+    public function show(RepairRequest $request): View | RedirectResponse
+    {
+        $userID = Auth::id();
+        $userType = User::where('ID', $userID)->value('type');
+        $orderInfo = Order::where('requestID', $request->id)->first();
+
+        switch($userType) {
+            case 1:
+                if ($userID == $request->clientID) {
+                    return view('requests.show_user')->with('request', $request)->with('orderInfo', $orderInfo);
+                } else {
+                    return redirect()->route('requests.index');
+                }
+                // no break
+            case 2:
+                if ($request->status == 0) {
+                    return view('requests.show_employee')->with('request', $request);
+                } else {
+                    if ($userID == $orderInfo->employeeID) {
+                        return view('requests.show_employee')->with('request', $request)->with('orderInfo', $orderInfo);
+                    } else {
+                        return redirect()->route('requests.index');
+                    }
+                }
+                // no break
+            case 3:
+                return view('requests.show_admin')->with('request', $request)->with('orderInfo', $orderInfo);
+        }
+        return view('welcome');
+    }
+
+    public function accept(RepairRequest $request): View
+    {
+        return view('welcome');
+    }
+
+    public function respond(RepairRequest $request): View
+    {
+        return view('welcome');
+    }
+
+    public function reject(RepairRequest $request): View
+    {
+        return view('welcome');
+    }
+
+    public function create(RepairRequest $request): View
+    {
         return view('welcome');
     }
 }
