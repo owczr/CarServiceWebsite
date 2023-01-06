@@ -39,16 +39,16 @@
                                             <div class="text-sm text-gray-900">Waiting</div>
                                             @break
                                         @case(1)
-                                            <div class="text-sm text-gray-900">Accepted</div>
+                                            <div class="text-sm text-green-500">Accepted</div>
                                             @break
                                         @case(2)
-                                            <div class="text-sm text-gray-900">Returned</div>
+                                            <div class="text-sm text-yellow-400">Returned</div>
                                             @break
                                         @case(3)
-                                            <div class="text-sm text-gray-900">Rejected</div>
+                                            <div class="text-sm text-red-600">Rejected</div>
                                             @break
                                         @case(4)
-                                            <div class="text-sm text-gray-900">Closed</div>
+                                            <div class="text-sm text-blue-600">Closed</div>
                                             @break
                                     @endswitch
                                 </td>
