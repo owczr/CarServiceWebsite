@@ -15,7 +15,7 @@
                 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
                     <div class="px-4 py-5 sm:px-6 mt-4 mb-4">
                         <h3 class="text-lg leading-6 font-medium text-gray-900">
-                            {{ $request->title }}
+                            Request no #{{ $request->id }}: {{ $request->title }}
                         </h3>
                         <p class="mt-1 max-w-2xl text-sm text-gray-500">
                             Detailed information.
