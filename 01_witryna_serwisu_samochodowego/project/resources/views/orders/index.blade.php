@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('List of all waiting requests') }}
+            {{ __('List of all my orders') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -9,7 +9,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
                 @if($requests->isEmpty())
-                    <p class="p-6">No requests in database.</p>
+                    <p class="p-6">No active orders.</p>
                 @else
                     <table class="min-w-full divide-y divide-gray-200 mt-4">
                         <thead class="bg-gray-50">
@@ -44,7 +44,7 @@
                                     <div class="text-sm text-gray-900">{{ App\Models\User::where('id', $request->clientID )->value('name') }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="{{ route('requests.show', $request) }}" class="text-indigo-600 hover:text-indigo-900">Details</a>
+                                    <a href="{{ route('orders.show', $request) }}" class="text-indigo-600 hover:text-indigo-900">Details</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -43,5 +43,13 @@ class UsersSeeder extends Seeder
             'type' => 1,
             'phone' => '692137421',
         ]);
+
+        DB::table('users')->insert([
+            'name' => 'Employee 2',
+            'email' => 'employee2@gmail.com',
+            'password' => bcrypt('secret'),
+            'type' => 2,
+            'phone' => '123321222',
+        ]);
     }
 }
