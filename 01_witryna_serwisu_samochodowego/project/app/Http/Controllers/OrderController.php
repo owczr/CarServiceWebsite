@@ -4,20 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\RepairRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    public function index(): View
+    public function index(): View | RedirectResponse
     {
-        return view('dashboard');
+        $userID = Auth::id();
+        $userType = User::where('ID', $userID)->value('type');
+        if ($userType == 2) {
+            $requests = RepairRequest::whereHas('orders', function ($query) {
+                $query->where('orders.employeeID', '=', Auth::id());
+            })->get();
+            return view('orders.index')->with('requests', $requests);
+        }
+        return redirect()->route('requests.index');
     }
     public function show(Order $order): RedirectResponse | View
     {
         $request = $request = RepairRequest::find($order->requestID);
-        return view('requests.show_employee')->with('request', $request)->with('orderInfo', $order);
+        $userID = Auth::id();
+
+        if ($userID == $order->employeeID) {
+            return view('requests.show_employee')->with('request', $request)->with('orderInfo', $order);
+        } else {
+            return redirect()->route('orders.index');
+        }
     }
 
     private function updateAndSave(Order $order, Request $request): void
