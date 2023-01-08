@@ -11,6 +11,7 @@ use App\Helpers\HasEnsure;
 use App\Models\Book;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -101,6 +102,35 @@ class RepairRequestController extends Controller
     // User creates new request - return view
     public function create(RepairRequest $request): View
     {
-        return view('welcome');
+        return view('requests.create');
+    }
+
+    private function updateAndSave(RepairRequest $repairRequest, Request $request): void
+    {
+        $repairRequest->title = $this->ensureIsString($request->title);
+        $repairRequest->model = $this->ensureIsString($request->model);
+        $repairRequest->description = $this->ensureIsString($request->description);
+        $repairRequest->clientID = Auth::user()->getAuthIdentifier();
+        $repairRequest->status = 0;
+        $repairRequest->date = Date::now();
+
+        $repairRequest->save();
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'model' => 'required',
+            'description' => 'required'
+        ]);
+
+        $repairRequest = new RepairRequest();
+        $this->updateAndSave($repairRequest, $request);
+
+        return redirect()->route('requests.show', $repairRequest);
     }
 }

@@ -9,7 +9,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <form method="post" action="{{ route('requests.create') }}">
+                    <form method="post" action="{{ route('requests.index') }}">
 
                         @csrf
 
@@ -37,16 +37,16 @@
                         <div class="mt-4">
                             <x-input-label for="image" :value="__('Image')" />
                         </div>
-
-                        <div class="mt-2">
-                        <form action="{{ route('requests.create') }}" method="post" enctype="multipart/form-data">
-                                <!-- Add CSRF Token -->
-                                @csrf
-                                <div class="form-group">
-                                    <input type="file" name="file" required>
-                                </div>
-                            </form>
-                        </div>
+                        <a href="https://www.codewall.co.uk/upload-image-to-database-using-laravel-tutorial-with-example/">Placeholder</a>
+{{--                        <div class="mt-2">--}}
+{{--                        <form action="{{ route('requests.create') }}" method="post" enctype="multipart/form-data">--}}
+{{--                                <!-- Add CSRF Token -->--}}
+{{--                                @csrf--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <input type="file" name="file" required>--}}
+{{--                                </div>--}}
+{{--                            </form>--}}
+{{--                        </div>--}}
 
                         <div class="flex items-center justify-end mt-4">
 
