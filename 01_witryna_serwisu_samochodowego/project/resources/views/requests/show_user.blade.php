@@ -105,7 +105,7 @@
                                         </x-primary-button>
                                     </form>
 
-                                    <form method="post" action="{{ route('requests.reject', $request) }}">
+                                    <form method="get" action="{{ route('requests.reject', $request) }}">
                                         <x-primary-button class="ml-4 mb-4">
                                             {{ __('Reject') }}
                                         </x-primary-button>
