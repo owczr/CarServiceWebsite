@@ -33,10 +33,13 @@ require __DIR__.'/auth.php';
 Route::resource('comments', \App\Http\Controllers\CommentController::class);
 Route::resource('/books', \App\Http\Controllers\BookController::class)->middleware(['auth']);
 
+
 Route::get('requests/{request}/accept_request', [\App\Http\Controllers\RepairRequestController::class, 'accept_request'])->name('requests.accept_request');
-Route::get('requests/accept', [\App\Http\Controllers\RepairRequestController::class, 'accept'])->name('requests.accept');
-Route::get('requests/respond', [\App\Http\Controllers\RepairRequestController::class, 'respond'])->name('requests.respond');
-Route::get('requests/reject', [\App\Http\Controllers\RepairRequestController::class, 'reject'])->name('requests.reject');
+Route::get('requests/{request}/accept', [\App\Http\Controllers\RepairRequestController::class, 'accept'])->name('requests.accept');
+Route::get('requests/{request}/respond', [\App\Http\Controllers\RepairRequestController::class, 'respond'])->name('requests.respond');
+Route::get('requests/send_respond', [\App\Http\Controllers\RepairRequestController::class, 'send_respond'])->name('requests.send_respond');
+Route::get('requests/{request}/reject', [\App\Http\Controllers\RepairRequestController::class, 'reject'])->name('requests.reject');
+Route::get('requests/{request}/finish', [\App\Http\Controllers\RepairRequestController::class, 'finish'])->name('requests.finish');
 Route::resource('/requests', \App\Http\Controllers\RepairRequestController::class)->middleware(['auth']);
 
 Route::resource('/orders', \App\Http\Controllers\OrderController::class)->middleware(['auth']);
