@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class RepairRequest extends Model
 {
     use HasFactory;
+
+    public function orders()
+    {
+        return $this->hasOne(Order::class, 'requestID');
+    }
 }

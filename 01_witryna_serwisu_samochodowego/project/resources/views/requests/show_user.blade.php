@@ -15,7 +15,7 @@
                 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
                     <div class="px-4 py-5 sm:px-6 mt-4 mb-4">
                         <h3 class="text-lg leading-6 font-medium text-gray-900">
-                            {{ $request->title }}
+                            Request no #{{ $request->id }}: {{ $request->title }}
                         </h3>
                         <p class="mt-1 max-w-2xl text-sm text-gray-500">
                             Detailed information.
@@ -124,13 +124,21 @@
                                 </div>
                                 <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt class="text-sm font-medium text-gray-500">
+                                        Employee phone number
+                                    </dt>
+                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                        {{ App\Models\User::where('id', $orderInfo->employeeID )->value('phone') }}
+                                    </dd>
+                                </div>
+                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500">
                                         Cost
                                     </dt>
                                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                          {{ $orderInfo->cost }}
                                     </dd>
                                 </div>
-                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt class="text-sm font-medium text-gray-500">
                                         Date and time of beginning
                                     </dt>
@@ -138,7 +146,7 @@
                                         {{ Carbon\Carbon::parse($orderInfo->startDatetime)->format('d-m-Y H:i') }}
                                     </dd>
                                 </div>
-                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <div class="bg-bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt class="text-sm font-medium text-gray-500">
                                         Estimated duration
                                     </dt>
