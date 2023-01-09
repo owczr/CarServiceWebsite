@@ -35,9 +35,17 @@ class Test03_RequestRepairCest
         $I->fillField('description', $description);
 
         $I->see('Create');
+
+        $I->dontSeeInDatabase('repair_requests', ['title' => $title,
+            'model' => $model, 'description' => $description]);
+
         $I->click('Create');
 
         $I->seeInDatabase('repair_requests', ['title' => $title,
             'model' => $model, 'description' => $description]);
+
+        $I->see($title);
+        $I->see($model);
+        $I->see($description);
     }
 }
