@@ -107,12 +107,12 @@ class RepairRequestController extends Controller
 
     private function updateAndSave(RepairRequest $repairRequest, Request $request): void
     {
+        $repairRequest->clientID = Auth::user()->getAuthIdentifier();
         $repairRequest->title = $this->ensureIsString($request->title);
         $repairRequest->model = $this->ensureIsString($request->model);
         $repairRequest->description = $this->ensureIsString($request->description);
-        $repairRequest->clientID = Auth::user()->getAuthIdentifier();
-        $repairRequest->status = 0;
         $repairRequest->date = Date::now();
+        $repairRequest->status = 0;
 
         $repairRequest->save();
     }
