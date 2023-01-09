@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Accepting a request') }}
+            {{ __('Respond request with new date') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -68,35 +68,19 @@
                                 </dd>
                             </div>
                             <div class="p-6 bg-white border-b border-gray-200">
-                                <form method="post" action="{{ route('orders.store') }}">
+                                <form method="get" action="{{ route('requests.send_respond') }}">
 
                                     @csrf
-
                                     <div>
-                                        <x-input-label for="startDatetime" :value="__('Date and time of start')" />
-                                        <x-text-input id="startDatetime" class="block mt-1 w-full" type="datetime-local" name="startDatetime" :value="old('startDatetime')" autofocus />
+                                        <x-input-label for="new_date" :value="__('New date')" />
+                                        <x-text-input id="startDatetime" class="block mt-1 w-full" type="date" name="new_date" :value="old('new_date')" autofocus />
 
-                                        <x-input-error :messages="$errors->get('startDatetime')" class="mt-2" />
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <x-input-label for="title" :value="__('Estimated duration (in hours)')" />
-                                        <x-text-input id="estDuration" class="block mt-1 w-full" type="number" name="estDuration" :value="old('estDuration')" />
-
-                                        <x-input-error :messages="$errors->get('estDuration')" class="mt-2" />
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <x-input-label for="title" :value="__('Cost')" />
-                                        <x-text-input id="cost" class="block mt-1 w-full" type="number" name="cost" :value="old('cost')" />
-
-                                        <x-input-error :messages="$errors->get('cost')" class="mt-2" />
+                                        <x-input-error :messages="$errors->get('new_date')" class="mt-2" />
                                     </div>
                                     <input type="hidden" name="requestID" value="{{$request->id}}" />
-                                    <input type="hidden" name="employeeID" value="{{Auth::id()}}" />
                                     <div class="flex items-center justify-end mt-4">
                                         <x-primary-button class="ml-4 mb-4">
-                                            {{ __('Accept') }}
+                                            {{ __('Respond') }}
                                         </x-primary-button>
                                     </div>
                                 </form>

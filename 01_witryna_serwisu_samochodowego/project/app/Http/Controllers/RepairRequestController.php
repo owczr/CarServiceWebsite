@@ -74,31 +74,81 @@ class RepairRequestController extends Controller
         $request->status = $new_status;
         $request->save();
     }
+    private static function save_new_date(int $id, string $new_date): void
+    {
+        $request = RepairRequest::find($id);
+        $request->date = $new_date;
+        $request->save();
+    }
 
     // Employee accepts request -> become an order
-    public function accept_request(RepairRequest $request): View
+    public function accept_request(RepairRequest $request): View | RedirectResponse
     {
-        return view('requests.accept')->with('request', $request);
+        $userID = Auth::id();
+        $userType = User::where('ID', $userID)->value('type');
+        if ($request->status == 0 && $userType == 2) {
+            return view('requests.accept')->with('request', $request);
+        }
+        return redirect()->route('requests.index');
     }
 
     // User accepts new date - change status to 0 and redirect/view
-    public function accept(RepairRequest $request): View
+    public function accept(RepairRequest $request): RedirectResponse
     {
-        return view('welcome');
+        $requestID = $request->id;
+        self::update_status($requestID, 0);
+        return redirect()->route('requests.show', $request);
     }
 
     // Employee responds with new date - new view with form
-    public function respond(RepairRequest $request): View
+    public function respond(RepairRequest $request): View | RedirectResponse
     {
-        return view('welcome');
+        $userID = Auth::id();
+        $userType = User::where('ID', $userID)->value('type');
+        if ($request->status == 0 && $userType == 2) {
+            return view('requests.respond')->with('request', $request);
+        }
+        return redirect()->route('requests.index');
     }
 
-    // Employee or user rejects request - simple function with redirect or view
-    public function reject(RepairRequest $request): View
+    public function send_respond(Request $request): RedirectResponse
     {
-        return view('welcome');
+        $this->validate($request, [
+            'new_date' => 'date',
+        ]);
+
+        $requestID = $request->requestID;
+        self::update_status($requestID, 2);
+        self::save_new_date($requestID, $request->new_date);
+        return redirect()->route('requests.index');
     }
 
+    // Employee or user rejects request - simple function with redirect
+    public function reject(RepairRequest $request): RedirectResponse
+    {
+        $userID = Auth::id();
+        $userType = User::where('ID', $userID)->value('type');
+        if (($userType == 1 && $request->clientID == $userID && $request->status == 2) || ($userType == 2 && $request->status == 0)) {
+            self::update_status($request->id, 3);
+        }
+        return redirect()->route('requests.index');
+    }
+
+    // Employee finish order - change status to closed (4)
+    public function finish(RepairRequest $request): RedirectResponse
+    {
+        $userID = Auth::id();
+        $userType = User::where('ID', $userID)->value('type');
+        if ($userType == 2 && $request->status == 1) {
+            $employeeID = Order::where('requestID', $request->id)->value('employeeID');
+            if ($employeeID == $userID) {
+                self::update_status($request->id, 4);
+                return redirect()->route('requests.show', $request);
+            }
+            return redirect()->route('orders.index');
+        }
+        return redirect()->route('requests.index');
+    }
     // User creates new request - return view
     public function create(RepairRequest $request): View
     {
