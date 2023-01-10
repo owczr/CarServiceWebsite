@@ -37,16 +37,11 @@
                         <div class="mt-4">
                             <x-input-label for="image" :value="__('Image')" />
                         </div>
-                        <a href="https://www.codewall.co.uk/upload-image-to-database-using-laravel-tutorial-with-example/">Placeholder</a>
-{{--                        <div class="mt-2">--}}
-{{--                        <form action="{{ route('requests.create') }}" method="post" enctype="multipart/form-data">--}}
-{{--                                <!-- Add CSRF Token -->--}}
-{{--                                @csrf--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <input type="file" name="file" required>--}}
-{{--                                </div>--}}
-{{--                            </form>--}}
-{{--                        </div>--}}
+                        <div class="mt-2">
+                            <div class="form-group">
+                                <input id="image" type="file" name="image">
+                            </div>
+                        </div>
 
                         <div class="flex items-center justify-end mt-4">
 
