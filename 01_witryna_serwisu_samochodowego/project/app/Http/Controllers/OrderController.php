@@ -40,14 +40,32 @@ class OrderController extends Controller
         }
     }
 
+    public function update(Request $request, Order $order): RedirectResponse
+    {
+        $this->validate($request, [
+            'requestID' => 'exists:repair_requests,id',
+            'employeeID' => 'exists:users,id',
+            'startDatetime' => 'required',
+            'estDuration' => 'required|numeric',
+            'cost' => 'required|numeric'
+        ]);
+
+        $this->updateAndSave($order, $request);
+
+        return redirect()->route('orders.show', $order);
+    }
+
     private function updateAndSave(Order $order, Request $request): void
     {
-
         RepairRequestController::update_status($request->requestID, 1);
         $order->requestID = $request->requestID;
         $order->employeeID = $request->employeeID;
         $order->startDatetime = $this->ensureIsString($request->startDatetime);
         $order->estDuration = $request->estDuration;
+        if ($request->file('image') != null) {
+            $order->images = $request->file('image')->store('images');
+            //$order->images = 'Essa';
+        }
         $order->cost = $request->cost;
         $order->save();
     }
@@ -71,7 +89,7 @@ class OrderController extends Controller
         $request = RepairRequest::find($order->requestID);
         $userID = Auth::id();
         $userType = User::where('ID', $userID)->value('type');
-        if ($userType == 2 && $order->employeeID == $userID) {
+        if ($userType == 2 && $order->employeeID == $userID && $request->status == 1) {
             return view('orders.edit')->with('order', $order)->with('request', $request);
         }
         return redirect()->route('orders.index');
