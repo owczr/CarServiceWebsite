@@ -10,7 +10,7 @@ class RepairRequest extends Model
     use HasFactory;
     public $timestamps = false;
 
-    public function orders()
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Order::class, 'requestID');
     }

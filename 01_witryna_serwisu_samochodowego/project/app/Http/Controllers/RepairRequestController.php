@@ -54,7 +54,7 @@ class RepairRequestController extends Controller
                 if ($request->status == 0) {
                     return view('requests.show_employee')->with('request', $request);
                 } else {
-                    if ($userID == $orderInfo->employeeID) {
+                    if ($orderInfo && $userID == $orderInfo->employeeID) {
                         return view('requests.show_employee')->with('request', $request)->with('orderInfo', $orderInfo);
                     } else {
                         return redirect()->route('requests.index');
@@ -71,14 +71,19 @@ class RepairRequestController extends Controller
     public static function update_status(int $id, int $new_status): void
     {
         $request = RepairRequest::find($id);
-        $request->status = $new_status;
-        $request->save();
+        if ($request) {
+            $request->status = $new_status;
+            $request->save();
+        }
+
     }
     private static function save_new_date(int $id, string $new_date): void
     {
         $request = RepairRequest::find($id);
-        $request->date = $new_date;
-        $request->save();
+        if ($request) {
+            $request->date = $new_date;
+            $request->save();
+        }
     }
 
     // Employee accepts request -> become an order
@@ -118,8 +123,10 @@ class RepairRequestController extends Controller
         ]);
 
         $requestID = $request->requestID;
-        self::update_status($requestID, 2);
-        self::save_new_date($requestID, $request->new_date);
+        if (is_int($requestID)) {
+            self::update_status($requestID, 2);
+            self::save_new_date($requestID, $this->ensureIsString($request->new_date));
+        }
         return redirect()->route('requests.index');
     }
 
@@ -157,7 +164,7 @@ class RepairRequestController extends Controller
 
     private function updateAndSave(RepairRequest $repairRequest, Request $request): void
     {
-        $repairRequest->clientID = Auth::user()->getAuthIdentifier();
+        $repairRequest->clientID = Auth::id();
         $repairRequest->title = $this->ensureIsString($request->title);
         $repairRequest->model = $this->ensureIsString($request->model);
         $repairRequest->description = $this->ensureIsString($request->description);
