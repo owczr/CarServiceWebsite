@@ -65,6 +65,20 @@
                                 @markdown($request->description)
                             </dd>
                         </div>
+                        @if($request->images != null)
+                            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Client images
+                                </dt>
+                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    @foreach(explode('|',$request->images) as $image)
+                                        @if($image != "")
+                                            <img src="{{ asset( "$image")  }}" style="width: 400px; margin-left: auto; margin-right: auto; display: block;"/>
+                                        @endif
+                                    @endforeach
+                                </dd>
+                            </div>
+                        @endif
                     </dl>
                     <form method="post" action="{{ route('orders.update', $order) }}" enctype="multipart/form-data">
 
@@ -84,18 +98,28 @@
 
                             <x-input-error :messages="$errors->get('estDuration')" class="mt-2" />
                         </div>
-
                         <div class="mt-4">
                             <x-input-label for="cost" :value="__('Cost')" />
                             <x-text-input id="cost" class="block mt-1 w-full" type="text" name="cost" :value="$order->cost" />
 
                             <x-input-error :messages="$errors->get('cost')" class="mt-2" />
                         </div>
+                        @if($order->images != null || $order->images != "")
+                            <input type="hidden" name="existingImages" value="{{$order->images}}" />
+                            @foreach(explode('|',$order->images) as $image)
+                                @if($image != "")
+                                    <div class="p-4 bg-white border-b border-gray-200">
+                                        <img src="{{ asset( "$image")  }}" style="width: 500px; margin-left: auto; margin-right: auto; display: block;"/>
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
+
 
                         <div class="flex items-center justify-end mt-4">
                             <input type="hidden" name="requestID" value="{{$order->requestID}}" />
                             <input type="hidden" name="employeeID" value="{{$order->employeeID}}" />
-                            <input type="file" id="image" name="image" accept="image/png, image/jpeg">
+                            <input type="file" id="image" name="image[]" accept="image/png, image/jpeg" multiple>
                             <x-primary-button class="ml-4">
                                 {{ __('Update') }}
                             </x-primary-button>

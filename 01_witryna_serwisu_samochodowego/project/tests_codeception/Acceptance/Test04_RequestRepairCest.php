@@ -30,9 +30,11 @@ class Test04_RequestRepairCest
         $title = 'zajebista fura';
         $model = 'civic honda';
         $description = 'drzwi do gory sie podnosza przod pare centymetrow ty szczur sie nie przecisnie';
+        $date = '2023-02-02';
         $I->fillField('title', $title);
         $I->fillField('model', $model);
         $I->fillField('description', $description);
+        $I->fillField('date', $date);
 
         $I->see('Create');
 

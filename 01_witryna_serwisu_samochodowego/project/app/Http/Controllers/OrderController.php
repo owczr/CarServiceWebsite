@@ -62,10 +62,17 @@ class OrderController extends Controller
         $order->employeeID = $request->employeeID;
         $order->startDatetime = $this->ensureIsString($request->startDatetime);
         $order->estDuration = $request->estDuration;
+        $images = ($request->existingImages != "") ? $request->existingImages : "";
         if ($request->file('image') != null) {
-            $order->images = $request->file('image')->store('images');
-            //$order->images = 'Essa';
+            foreach ($request->file('image') as $key => $file) {
+                $path = $file->store('images');
+                if ($path) {
+                    $images = $images.$path.'|';
+                }
+
+            }
         }
+        $order->images = $images;
         $order->cost = $request->cost;
         $order->save();
     }
