@@ -9,7 +9,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <form method="post" action="{{ route('books.update', $book) }}">
+                    <form method="post" action="{{ route('requests.update', $book) }}">
 
                         @csrf
                         @method("PUT")
