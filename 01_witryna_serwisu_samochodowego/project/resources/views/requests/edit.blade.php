@@ -15,7 +15,7 @@
                         @method("PUT")
 
                         <div>
-                            <x-input-label for="isbn" :value="__('ISBN')" />
+                            <x-input-label for="isbn" :value="__('I')" />
                             <x-text-input id="isbn" class="block mt-1 w-full" type="text" name="isbn" :value="$book->isbn" autofocus />
 
                             <x-input-error :messages="$errors->get('isbn')" class="mt-2" />
