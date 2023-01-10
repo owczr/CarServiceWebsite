@@ -45,4 +45,3 @@ Route::resource('/requests', \App\Http\Controllers\RepairRequestController::clas
 Route::resource('/orders', \App\Http\Controllers\OrderController::class)->middleware(['auth']);
 
 Route::get('requests/create', [\App\Http\Controllers\RepairRequestController::class, 'create'])->name('requests.create');
-
