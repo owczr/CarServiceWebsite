@@ -38,7 +38,7 @@ class UsersSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Client 2',
-            'email' => 'client22@gmail.com',
+            'email' => 'client2@gmail.com',
             'password' => bcrypt('secret'),
             'type' => 1,
             'phone' => '692137421',
