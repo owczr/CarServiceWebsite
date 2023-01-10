@@ -160,6 +160,9 @@
                                         {{ $orderInfo->estDuration }}
                                     </dd>
                                 </div>
+                                @if($orderInfo->images != null)
+                                    <img src="{{ asset( "$orderInfo->images")  }}" />
+                                @endif
                                 @if($request->status == 1)
                                     <div class="bg-white px-4 pb-5 flex items-center justify-end mt-4">
                                         <form method="get" action="{{ route('orders.edit', $orderInfo) }}">
