@@ -168,8 +168,19 @@ class RepairRequestController extends Controller
         $repairRequest->title = $this->ensureIsString($request->title);
         $repairRequest->model = $this->ensureIsString($request->model);
         $repairRequest->description = $this->ensureIsString($request->description);
-        $repairRequest->date = Date::now();
+        $repairRequest->date = $this->ensureIsString($request->date);
         $repairRequest->status = 0;
+        if ($request->file('image') != null) {
+            $img = "";
+            foreach ($request->file('image') as $key => $file) {
+                $filePath = $file->store('images');
+                if ($filePath) {
+                    $img = $img.$filePath.'|';
+                }
+
+            }
+            $repairRequest->images = $img;
+        }
 
         $repairRequest->save();
     }
@@ -182,7 +193,8 @@ class RepairRequestController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'model' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'date' => 'required'
         ]);
 
         $repairRequest = new RepairRequest();
