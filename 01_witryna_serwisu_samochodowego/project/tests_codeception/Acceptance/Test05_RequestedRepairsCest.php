@@ -5,7 +5,7 @@ namespace TestsCodeception\Acceptance;
 use Illuminate\Support\Facades\Auth;
 use TestsCodeception\Support\AcceptanceTester;
 
-class Test04_RequestedRepairsCest
+class Test05_RequestedRepairsCest
 {
     public function requestedRepairsTest(AcceptanceTester $I): void
     {

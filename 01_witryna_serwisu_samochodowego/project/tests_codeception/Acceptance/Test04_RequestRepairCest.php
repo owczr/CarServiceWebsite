@@ -4,7 +4,7 @@ namespace TestsCodeception\Acceptance;
 
 use TestsCodeception\Support\AcceptanceTester;
 
-class Test03_RequestRepairCest
+class Test04_RequestRepairCest
 {
     public function requestRepairTest(AcceptanceTester $I): void
     {
