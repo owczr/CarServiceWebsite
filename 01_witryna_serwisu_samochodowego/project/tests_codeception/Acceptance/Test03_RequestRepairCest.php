@@ -14,7 +14,7 @@ class Test03_RequestRepairCest
 
         $I->seeCurrentUrlEquals('/login');
 
-        $I->fillField('email', 'john.doe@gmail.com');
+        $I->fillField('email', 'client1@gmail.com');
         $I->fillField('password', 'secret');
 
         $I->click('Log in');
