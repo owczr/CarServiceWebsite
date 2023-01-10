@@ -162,9 +162,9 @@
                                 </div>
                                 @if($request->status == 1)
                                     <div class="bg-white px-4 pb-5 flex items-center justify-end mt-4">
-                                        <form method="get" action="">
+                                        <form method="get" action="{{ route('orders.edit', $orderInfo) }}">
                                             <x-primary-button class="ml-4 mb-4">
-                                                {{ __('Add photos') }}
+                                                {{ __('Edit') }}
                                             </x-primary-button>
                                         </form>
                                         <form method="get" action="{{ route('requests.finish', $request) }}">
