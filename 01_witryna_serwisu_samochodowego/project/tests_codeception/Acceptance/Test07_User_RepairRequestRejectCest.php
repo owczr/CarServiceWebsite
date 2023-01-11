@@ -3,15 +3,16 @@
 namespace TestsCodeception\Acceptance;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use TestsCodeception\Support\AcceptanceTester;
 
-class Test05_User_ShowRepairRequestCest
+class Test07_User_RepairRequestRejectCest
 {
     public function requestedRepairsTest(AcceptanceTester $I): void
     {
-        $I->wantTo('See my requested repairs and its details');
+        $I->wantTo('Accept or reject returned request');
 
         $I->amOnPage('/login');
         $I->seeCurrentUrlEquals('/login');
@@ -22,35 +23,41 @@ class Test05_User_ShowRepairRequestCest
 
 
         $clientID = 2;
-        $title = 'moje ohv chce miodu';
-        $model = 'fso polonez';
-        $description = 'wygodna kanapki mientkie nie trzensie hoho sunie jak diabel po szosie';
-        $status = 0;
-        $images = 'images/image1.jpg|images/image2.jpg|';
+        $title = 'example title';
+        $model = 'passerati';
+        $description = 'lorem ipsum';
+        $date = Date::now();
+        $status = 2;
 
         $id = $I->haveInDatabase('repair_requests', ['clientID' => $clientID, 'title' => $title,
-            'model' => $model, 'description' => $description, 'status' => $status, 'images' => $images]);
+            'model' => $model, 'description' => $description, 'date' => $date, 'status' => $status]);
 
         $I->amOnPage('/requests');
         $I->seeCurrentUrlEquals('/requests');
 
+        $I->see("Returned");
         $I->see("Details");
         $I->click("Details");
 
         $I->seeCurrentUrlEquals('/requests/'.$id);
 
         $I->seeInDatabase('repair_requests', ['title' => $title,
-            'model' => $model, 'description' => $description]);
+            'model' => $model, 'description' => $description, 'status' => $status]);
 
         $I->see($title);
         $I->see($model);
         $I->see($description);
+        $I->see("Returned");
 
-        foreach (explode('|', $images) as $image) {
-            if ($image != "") {
-                $I->seeInSource($image);
-                $I->seeElement('img', ['alt'=>explode('/', $image)[1]]);
-            }
-        }
+        $I->click("Reject");
+
+        $I->seeCurrentUrlEquals('/requests');
+
+        $I->seeInDatabase('repair_requests', ['title' => $title,
+            'model' => $model, 'description' => $description, 'status' => 3]);
+
+        $I->see($title);
+        $I->see("Rejected");
+        $I->see("Details");
     }
 }
