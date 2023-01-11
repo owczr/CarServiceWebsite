@@ -87,7 +87,7 @@
                                     @csrf
                                     <div>
                                         <x-input-label for="new_date" :value="__('New date')" />
-                                        <x-text-input id="startDatetime" class="block mt-1 w-full" type="date" name="new_date" :value="old('new_date')" autofocus />
+                                        <x-text-input id="new_date" class="block mt-1 w-full" type="date" name="new_date" :value="old('new_date')" autofocus />
 
                                         <x-input-error :messages="$errors->get('new_date')" class="mt-2" />
                                     </div>

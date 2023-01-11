@@ -50,17 +50,17 @@ class OrderController extends Controller
 
     private function updateAndSave(Order $order, Request $request): void
     {
-        //if (is_int($request->requestID)) {
+        if (is_numeric($request->requestID)) {
             RepairRequestController::update_status((int)$request->requestID, 1);
-            $order->requestID = $request->requestID;
-        //}
-        //if (is_int($request->employeeID)) {
-            $order->employeeID = $request->employeeID;
-        //}
+            $order->requestID = (int)$request->requestID;
+        }
+        if (is_numeric($request->employeeID)) {
+            $order->employeeID = (int)$request->employeeID;
+        }
         $order->startDatetime = $this->ensureIsString($request->startDatetime);
-        //if (is_int($request->estDuration)) {
-            $order->estDuration = $request->estDuration;
-        //}
+        if (is_numeric($request->estDuration)) {
+            $order->estDuration = (int)$request->estDuration;
+        }
         $images = ($request->existingImages != "") ? $request->existingImages : "";
         if ($request->file('image') != null) {
             if (is_array($request->file('image'))) {
@@ -73,9 +73,9 @@ class OrderController extends Controller
             }
         }
         $order->images = $this->ensureIsStringOrNull($images);
-        //if (is_float($request->cost)) {
-            $order->cost = $request->cost;
-        //}
+        if (is_numeric($request->cost)) {
+            $order->cost = (float)$request->cost;
+        }
         $order->save();
     }
     public function store(Request $request): RedirectResponse
