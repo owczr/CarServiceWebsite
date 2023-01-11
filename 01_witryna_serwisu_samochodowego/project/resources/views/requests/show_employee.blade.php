@@ -112,7 +112,7 @@
                                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                         @foreach(explode('|',$request->images) as $image)
                                             @if($image != "")
-                                                <img src="{{ asset( "$image")  }}" style="width: 400px; margin-left: auto; margin-right: auto; display: block;" alt="{{ explode('/',$image)[1] }}"/>
+                                                <img src="{{ asset( "$image")  }}" style="width: 400px; margin-left: auto; margin-right: auto; display: block;" alt="{{ explode('/',$image)[1] }}"sl/>
                                             @endif
                                         @endforeach
                                     </dd>
