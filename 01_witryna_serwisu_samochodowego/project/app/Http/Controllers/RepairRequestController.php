@@ -122,7 +122,7 @@ class RepairRequestController extends Controller
         ]);
 
         $requestID = $request->requestID;
-        if (is_int($requestID)) {
+        if (is_numeric($requestID)) {
             self::update_status($requestID, 2);
             self::save_new_date($requestID, $this->ensureIsString($request->new_date));
         }

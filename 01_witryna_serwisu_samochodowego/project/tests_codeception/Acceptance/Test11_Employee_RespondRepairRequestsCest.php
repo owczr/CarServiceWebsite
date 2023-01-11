@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use TestsCodeception\Support\AcceptanceTester;
 
-class Test10_Employee_AcceptRepairRequestsCest
+class Test11_Employee_RespondRepairRequestsCest
 {
     public function requestedRepairsTest(AcceptanceTester $I): void
     {
-        $I->wantTo('Accept repair request');
+        $I->wantTo('Respond repair request');
 
         $I->amOnPage('/login');
         $I->seeCurrentUrlEquals('/login');
@@ -50,9 +50,9 @@ class Test10_Employee_AcceptRepairRequestsCest
         $I->see($description);
 
 
-        $I->click('Accept');
+        $I->click('Respond with new date');
 
-        $I->seeCurrentUrlEquals('/requests/'.$requestID.'/accept_request');
+        $I->seeCurrentUrlEquals('/requests/'.$requestID.'/respond');
 
         $client_name = $I->grabColumnFromDatabase('users', 'name', ['id'=>$clientID])[0];
         $I->see($client_name);
@@ -61,36 +61,19 @@ class Test10_Employee_AcceptRepairRequestsCest
         $I->see('Waiting');
         $I->see($description);
 
-        $startDatetime = '2023-01-20 12:00:00';
-        $duration = 2;
-        $cost = 80.00;
-        $I->fillField('startDatetime', $startDatetime);
-        $I->fillField('estDuration', $duration);
-        $I->fillField('cost', $cost);
+        $newDate = '2023-01-20';
+        $I->fillField('new_date', $newDate);
 
-        $I->dontSeeInDatabase('orders', ['requestID' => $requestID]);
         $I->seeInDatabase('repair_requests', ['id' => $requestID, 'status' => 0]);
 
-        $I->click('Accept');
+        $I->click('Respond');
 
-        $I->seeInDatabase('orders', ['requestID' => $requestID]);
-        $I->seeInDatabase('repair_requests', ['id' => $requestID, 'status' => 1]);
-        $orderID = $I->grabColumnFromDatabase('orders', 'id', ['requestID' => $requestID])[0];
+        $I->seeInDatabase('repair_requests', ['id' => $requestID, 'status' => 2]);
 
-        $I->seeCurrentUrlEquals('/orders/'.$orderID);
 
-        $employee_name = $I->grabColumnFromDatabase('users', 'name', ['id' => $employeeID])[0];
+        $I->seeCurrentUrlEquals('/requests');
 
-        $I->see($client_name);
-        $I->see($title);
-        $I->see($model);
-        $I->see('Accepted');
-        $I->see($description);
-        $I->see($employee_name);
-        $I->see((string)$cost);
-        $I->see((string)$duration);
-
-        $I->see('Edit');
-        $I->see('Finish');
+        $I->dontSee('#'.$requestID);
+        $I->dontSee($title);
     }
 }
