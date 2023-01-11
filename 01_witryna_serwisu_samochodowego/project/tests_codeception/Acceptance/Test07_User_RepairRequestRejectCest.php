@@ -3,13 +3,16 @@
 namespace TestsCodeception\Acceptance;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use TestsCodeception\Support\AcceptanceTester;
 
-class Test05_RequestedRepairsCest
+class Test07_User_RepairRequestRejectCest
 {
     public function requestedRepairsTest(AcceptanceTester $I): void
     {
-        $I->wantTo('see my requested repairs');
+        $I->wantTo('Reject returned request');
 
         $I->amOnPage('/login');
         $I->seeCurrentUrlEquals('/login');
@@ -18,28 +21,41 @@ class Test05_RequestedRepairsCest
         $I->click('Log in');
         $I->seeCurrentUrlEquals('/dashboard');
 
+
         $clientID = 2;
-        $title = 'moje ohv chce miodu';
-        $model = 'fso polonez';
-        $description = 'wygodna kanapki mientkie nie trzensie hoho sunie jak diabel po szosie';
-        $status = 0;
+        $title = 'example title';
+        $model = 'passerati';
+        $description = 'lorem ipsum';
+        $date = Date::now();
+        $status = 2;
 
         $id = $I->haveInDatabase('repair_requests', ['clientID' => $clientID, 'title' => $title,
-            'model' => $model, 'description' => $description, 'status' => $status]);
+            'model' => $model, 'description' => $description, 'date' => $date, 'status' => $status]);
 
         $I->amOnPage('/requests');
         $I->seeCurrentUrlEquals('/requests');
 
+        $I->see("Returned");
         $I->see("Details");
         $I->click("Details");
 
         $I->seeCurrentUrlEquals('/requests/'.$id);
 
-        $I->seeInDatabase('repair_requests', ['title' => $title,
-            'model' => $model, 'description' => $description]);
+        $I->seeInDatabase('repair_requests', ['id' => $id, 'status' => $status]);
 
         $I->see($title);
         $I->see($model);
         $I->see($description);
+        $I->see("Returned");
+
+        $I->click("Reject");
+
+        $I->seeCurrentUrlEquals('/requests');
+
+        $I->seeInDatabase('repair_requests', ['id' => $id, 'status' => 3]);
+
+        $I->see($title);
+        $I->see("Rejected");
+        $I->see("Details");
     }
 }
