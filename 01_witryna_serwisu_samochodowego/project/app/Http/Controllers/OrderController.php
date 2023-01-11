@@ -42,14 +42,7 @@ class OrderController extends Controller
 
     public function update(Request $request, Order $order): RedirectResponse
     {
-        $this->validate($request, [
-            'requestID' => 'exists:repair_requests,id',
-            'employeeID' => 'exists:users,id',
-            'startDatetime' => 'required',
-            'estDuration' => 'required|numeric',
-            'cost' => 'required|numeric'
-        ]);
-
+        $this->validate_order($this, $request);
         $this->updateAndSave($order, $request);
 
         return redirect()->route('orders.show', $order);
@@ -87,14 +80,7 @@ class OrderController extends Controller
     }
     public function store(Request $request): RedirectResponse
     {
-        $this->validate($request, [
-            'requestID' => 'exists:repair_requests,id',
-            'employeeID' => 'exists:users,id',
-            'startDatetime' => 'required',
-            'estDuration' => 'required|numeric',
-            'cost' => 'required|numeric'
-        ]);
-
+        $this->validate_order($this, $request);
         $order = new Order();
         $this->updateAndSave($order, $request);
 
@@ -111,5 +97,16 @@ class OrderController extends Controller
             }
         }
         return redirect()->route('orders.index');
+    }
+
+    private function validate_order(OrderController $oc, Request $request): void
+    {
+        $oc->validate($request, [
+            'requestID' => 'exists:repair_requests,id',
+            'employeeID' => 'exists:users,id',
+            'startDatetime' => 'required',
+            'estDuration' => 'required|numeric',
+            'cost' => 'required|numeric'
+        ]);
     }
 }
