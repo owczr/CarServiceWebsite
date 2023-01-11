@@ -73,8 +73,8 @@ class Test08_User_ShowAcceptedRepairRequestWithOrderInfoCest
 
         $I->see($employee_name);
         $I->see($employee_phone);
-        $I->see($cost);
-        $I->see($estDuration);
+        $I->see((string)$cost);
+        $I->see((string)$estDuration);
 
         foreach (explode('|', $employee_images) as $image) {
             if ($image != "") {
