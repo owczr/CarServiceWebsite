@@ -17,4 +17,3 @@ class RepairRequest extends Model
         return $this->hasOne(Order::class, 'requestID');
     }
 }
-
