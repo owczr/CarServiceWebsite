@@ -3,8 +3,10 @@
 namespace TestsCodeception\Acceptance;
 
 use TestsCodeception\Support\AcceptanceTester;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
-class Test04_RequestRepairCest
+class Test04_User_AddRepairRequestCest
 {
     public function requestRepairTest(AcceptanceTester $I): void
     {
@@ -30,10 +32,14 @@ class Test04_RequestRepairCest
         $title = 'zajebista fura';
         $model = 'civic honda';
         $description = 'drzwi do gory sie podnosza przod pare centymetrow ty szczur sie nie przecisnie';
+        $date = '2023-02-02';
         $I->fillField('title', $title);
         $I->fillField('model', $model);
         $I->fillField('description', $description);
+        $I->fillField('date', $date);
 
+        $I->seeElement('input', ['type'=>'file']);
+        $I->attachFile('input[type="file"]', 'test_images/test.jpg');
         $I->see('Create');
 
         $I->dontSeeInDatabase('repair_requests', ['title' => $title,
@@ -42,10 +48,20 @@ class Test04_RequestRepairCest
         $I->click('Create');
 
         $I->seeInDatabase('repair_requests', ['title' => $title,
-            'model' => $model, 'description' => $description]);
+            'model' => $model, 'description' => $description, 'date'=>$date]);
+
+        $inserted_images = $I->grabColumnFromDatabase('repair_requests', 'images', ['title' => $title,
+            'model' => $model, 'description' => $description, 'date'=>$date])[0];
 
         $I->see($title);
         $I->see($model);
         $I->see($description);
+
+        foreach (explode('|', $inserted_images) as $image) {
+            if ($image != "") {
+                $I->seeInSource($image);
+                $I->seeElement('img', ['alt'=>explode('/', $image)[1]]);
+            }
+        }
     }
 }
