@@ -123,8 +123,8 @@ class RepairRequestController extends Controller
 
         $requestID = $request->requestID;
         if (is_numeric($requestID)) {
-            self::update_status($requestID, 2);
-            self::save_new_date($requestID, $this->ensureIsString($request->new_date));
+            self::update_status((int)$requestID, 2);
+            self::save_new_date((int)$requestID, $this->ensureIsString($request->new_date));
         }
         return redirect()->route('requests.index');
     }
