@@ -3,6 +3,8 @@
 namespace TestsCodeception\Acceptance;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use TestsCodeception\Support\AcceptanceTester;
 
 class Test05_RequestedRepairsCest
@@ -24,6 +26,7 @@ class Test05_RequestedRepairsCest
         $description = 'wygodna kanapki mientkie nie trzensie hoho sunie jak diabel po szosie';
         $status = 0;
 
+
         $id = $I->haveInDatabase('repair_requests', ['clientID' => $clientID, 'title' => $title,
             'model' => $model, 'description' => $description, 'status' => $status]);
 
@@ -41,5 +44,6 @@ class Test05_RequestedRepairsCest
         $I->see($title);
         $I->see($model);
         $I->see($description);
+
     }
 }

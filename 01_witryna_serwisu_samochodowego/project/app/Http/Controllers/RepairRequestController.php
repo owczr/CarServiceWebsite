@@ -75,7 +75,6 @@ class RepairRequestController extends Controller
             $request->status = $new_status;
             $request->save();
         }
-
     }
     private static function save_new_date(int $id, string $new_date): void
     {
@@ -164,7 +163,7 @@ class RepairRequestController extends Controller
 
     private function updateAndSave(RepairRequest $repairRequest, Request $request): void
     {
-        $repairRequest->clientID = Auth::id();
+        $repairRequest->clientID = (int)Auth::id();
         $repairRequest->title = $this->ensureIsString($request->title);
         $repairRequest->model = $this->ensureIsString($request->model);
         $repairRequest->description = $this->ensureIsString($request->description);
@@ -172,12 +171,13 @@ class RepairRequestController extends Controller
         $repairRequest->status = 0;
         if ($request->file('image') != null) {
             $img = "";
-            foreach ($request->file('image') as $key => $file) {
-                $filePath = $file->store('images');
-                if ($filePath) {
-                    $img = $img.$filePath.'|';
+            if (is_array($request->file('image'))) {
+                foreach ($request->file('image') as $key => $file) {
+                    $filePath = $file->store('images');
+                    if ($filePath) {
+                        $img = $img.$filePath.'|';
+                    }
                 }
-
             }
             $repairRequest->images = $img;
         }
