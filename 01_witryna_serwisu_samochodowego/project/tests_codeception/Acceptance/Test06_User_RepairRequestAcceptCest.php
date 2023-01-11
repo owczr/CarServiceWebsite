@@ -12,7 +12,7 @@ class Test06_User_RepairRequestAcceptCest
 {
     public function requestedRepairsTest(AcceptanceTester $I): void
     {
-        $I->wantTo('Accept or reject returned request');
+        $I->wantTo('Accept returned request');
 
         $I->amOnPage('/login');
         $I->seeCurrentUrlEquals('/login');
@@ -41,8 +41,7 @@ class Test06_User_RepairRequestAcceptCest
 
         $I->seeCurrentUrlEquals('/requests/'.$id);
 
-        $I->seeInDatabase('repair_requests', ['title' => $title,
-            'model' => $model, 'description' => $description, 'status' => $status]);
+        $I->seeInDatabase('repair_requests', ['id' => $id, 'status' => $status]);
 
         $I->see($title);
         $I->see($model);
@@ -53,8 +52,7 @@ class Test06_User_RepairRequestAcceptCest
 
         $I->seeCurrentUrlEquals('/requests/'.$id);
 
-        $I->seeInDatabase('repair_requests', ['title' => $title,
-            'model' => $model, 'description' => $description, 'status' => 0]);
+        $I->seeInDatabase('repair_requests', ['id' => $id, 'status' => 0]);
 
         $I->see($title);
         $I->see($model);
