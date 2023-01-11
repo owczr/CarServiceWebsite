@@ -27,7 +27,7 @@ class Test08_User_ShowAcceptedRepairRequestWithOrderInfoCest
         $model = 'fso polonez';
         $description = 'wygodna kanapki mientkie nie trzensie hoho sunie jak diabel po szosie';
         $date = Date::now();
-        $status = 0;
+        $status = 1;
         $user_images = 'images/image1.jpg|images/image2.jpg|';
 
         $requestID = $I->haveInDatabase('repair_requests', ['clientID' => $clientID, 'title' => $title,
