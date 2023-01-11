@@ -146,10 +146,10 @@ class RepairRequestController extends Controller
         $userID = Auth::id();
         $userType = User::where('ID', $userID)->value('type');
         if ($userType == 2 && $request->status == 1) {
-            $employeeID = Order::where('requestID', $request->id)->value('employeeID');
-            if ($employeeID == $userID) {
+            $order = Order::where('requestID', $request->id)->first();
+            if ($order->employeeID == $userID) {
                 self::update_status($request->id, 4);
-                return redirect()->route('requests.show', $request);
+                return redirect()->route('orders.show', $order);
             }
             return redirect()->route('orders.index');
         }
