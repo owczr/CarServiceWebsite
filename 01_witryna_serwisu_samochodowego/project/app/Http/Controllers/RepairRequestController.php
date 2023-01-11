@@ -6,7 +6,7 @@ use App\Models\Order;
 use App\Models\RepairRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use App\Helpers\ManageImages;
 use App\Helpers\HasEnsure;
 use App\Models\Book;
 use Illuminate\Http\RedirectResponse;
@@ -18,6 +18,7 @@ use Illuminate\View\View;
 class RepairRequestController extends Controller
 {
     use HasEnsure;
+    use ManageImages;
 
     public function index(): View
     {
@@ -88,8 +89,7 @@ class RepairRequestController extends Controller
     // Employee accepts request -> become an order
     public function accept_request(RepairRequest $request): View | RedirectResponse
     {
-        $userID = Auth::id();
-        $userType = User::where('ID', $userID)->value('type');
+        $userType = User::where('ID', Auth::id())->value('type');
         if ($request->status == 0 && $userType == 2) {
             return view('requests.accept')->with('request', $request);
         }
@@ -147,9 +147,11 @@ class RepairRequestController extends Controller
         $userType = User::where('ID', $userID)->value('type');
         if ($userType == 2 && $request->status == 1) {
             $order = Order::where('requestID', $request->id)->first();
-            if ($order->employeeID == $userID) {
-                self::update_status($request->id, 4);
-                return redirect()->route('orders.show', $order);
+            if ($order) {
+                if ($order->employeeID == $userID) {
+                    self::update_status($request->id, 4);
+                    return redirect()->route('orders.show', $order);
+                }
             }
             return redirect()->route('orders.index');
         }
@@ -171,28 +173,9 @@ class RepairRequestController extends Controller
         $repairRequest->status = 0;
         if ($request->file('image') != null) {
             $img = "";
-            if (is_array($request->file('image'))) {
-                foreach ($request->file('image') as $key => $file) {
-                    $filePath = $file->store('images');
-                    if ($filePath) {
-                        $img = $img.$filePath.'|';
-                    }
-                }
-            }
+            $img = $this->storeImages($request, $img);
             $repairRequest->images = $img;
         }
-
-        if ($request->file('image')) {
-            //   FIXME
-            $request->validate([
-                'image' => 'mimes:jpeg,jpg,bmp,png'
-            ]);
-            $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
-            $file-> move(public_path('public/Image'), $filename);
-            $repairRequest->images = $filename;
-        }
-
         $repairRequest->save();
     }
 

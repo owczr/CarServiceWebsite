@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\HasEnsure;
+use App\Helpers\ManageImages;
 use App\Models\Order;
 use App\Models\RepairRequest;
 use App\Models\User;
@@ -15,6 +16,7 @@ use Illuminate\View\View;
 class OrderController extends Controller
 {
     use HasEnsure;
+    use ManageImages;
 
     public function index(): View | RedirectResponse
     {
@@ -31,10 +33,9 @@ class OrderController extends Controller
     public function show(Order $order): RedirectResponse | View
     {
         $request = RepairRequest::find($order->requestID);
-        $userID = Auth::id();
 
-        if ($userID == $order->employeeID) {
-            return view('requests.show_employee')->with('request', $request)->with('orderInfo', $order);
+        if (Auth::id() == $order->employeeID) {
+            return view('requests.show_employee')->with('orderInfo', $order)->with('request', $request);
         } else {
             return redirect()->route('orders.index');
         }
@@ -63,14 +64,7 @@ class OrderController extends Controller
         }
         $images = ($request->existingImages != "") ? $request->existingImages : "";
         if ($request->file('image') != null) {
-            if (is_array($request->file('image'))) {
-                foreach ($request->file('image') as $key => $file) {
-                    $path = $file->store('images');
-                    if ($path) {
-                        $images = $images.$path.'|';
-                    }
-                }
-            }
+            $images = $this->storeImages($request, $this->ensureIsString($images));
         }
         $order->images = $this->ensureIsStringOrNull($images);
         if (is_numeric($request->cost)) {
