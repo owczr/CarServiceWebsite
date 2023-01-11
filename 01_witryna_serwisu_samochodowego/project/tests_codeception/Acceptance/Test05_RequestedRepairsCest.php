@@ -20,15 +20,16 @@ class Test05_RequestedRepairsCest
         $I->click('Log in');
         $I->seeCurrentUrlEquals('/dashboard');
 
+
         $clientID = 2;
         $title = 'moje ohv chce miodu';
         $model = 'fso polonez';
         $description = 'wygodna kanapki mientkie nie trzensie hoho sunie jak diabel po szosie';
         $status = 0;
-
+        $images = 'images/image1.jpg|images/image2.jpg|';
 
         $id = $I->haveInDatabase('repair_requests', ['clientID' => $clientID, 'title' => $title,
-            'model' => $model, 'description' => $description, 'status' => $status]);
+            'model' => $model, 'description' => $description, 'status' => $status, 'images' => $images]);
 
         $I->amOnPage('/requests');
         $I->seeCurrentUrlEquals('/requests');
@@ -45,5 +46,10 @@ class Test05_RequestedRepairsCest
         $I->see($model);
         $I->see($description);
 
+        foreach (explode('|', $images) as $image) {
+            if ($image != "") {
+                $I->seeElement('img', ['alt'=>explode('/', $image)[1]]);
+            }
+        }
     }
 }
