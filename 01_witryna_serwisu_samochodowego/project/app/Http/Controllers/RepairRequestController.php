@@ -122,9 +122,9 @@ class RepairRequestController extends Controller
         ]);
 
         $requestID = $request->requestID;
-        if (is_int($requestID)) {
-            self::update_status($requestID, 2);
-            self::save_new_date($requestID, $this->ensureIsString($request->new_date));
+        if (is_numeric($requestID)) {
+            self::update_status((int)$requestID, 2);
+            self::save_new_date((int)$requestID, $this->ensureIsString($request->new_date));
         }
         return redirect()->route('requests.index');
     }
@@ -146,10 +146,10 @@ class RepairRequestController extends Controller
         $userID = Auth::id();
         $userType = User::where('ID', $userID)->value('type');
         if ($userType == 2 && $request->status == 1) {
-            $employeeID = Order::where('requestID', $request->id)->value('employeeID');
-            if ($employeeID == $userID) {
+            $order = Order::where('requestID', $request->id)->first();
+            if ($order->employeeID == $userID) {
                 self::update_status($request->id, 4);
-                return redirect()->route('requests.show', $request);
+                return redirect()->route('orders.show', $order);
             }
             return redirect()->route('orders.index');
         }
@@ -163,12 +163,24 @@ class RepairRequestController extends Controller
 
     private function updateAndSave(RepairRequest $repairRequest, Request $request): void
     {
-        $repairRequest->clientID = Auth::id();
+        $repairRequest->clientID = (int)Auth::id();
         $repairRequest->title = $this->ensureIsString($request->title);
         $repairRequest->model = $this->ensureIsString($request->model);
         $repairRequest->description = $this->ensureIsString($request->description);
-        $repairRequest->date = Date::now();
+        $repairRequest->date = $this->ensureIsString($request->date);
         $repairRequest->status = 0;
+        if ($request->file('image') != null) {
+            $img = "";
+            if (is_array($request->file('image'))) {
+                foreach ($request->file('image') as $key => $file) {
+                    $filePath = $file->store('images');
+                    if ($filePath) {
+                        $img = $img.$filePath.'|';
+                    }
+                }
+            }
+            $repairRequest->images = $img;
+        }
 
         if ($request->file('image')) {
             //   FIXME
@@ -192,7 +204,8 @@ class RepairRequestController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'model' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'date' => 'required'
         ]);
 
         $repairRequest = new RepairRequest();

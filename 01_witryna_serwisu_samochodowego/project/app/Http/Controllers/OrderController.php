@@ -23,7 +23,7 @@ class OrderController extends Controller
         if ($userType == 2) {
             $requests = RepairRequest::whereHas('orders', function ($query) {
                 $query->where('orders.employeeID', '=', Auth::id());
-            })->get();
+            })->orderBy('id', 'desc')->get();
             return view('orders.index')->with('requests', $requests);
         }
         return redirect()->route('requests.index');
@@ -40,27 +40,47 @@ class OrderController extends Controller
         }
     }
 
+    public function update(Request $request, Order $order): RedirectResponse
+    {
+        $this->validate_order($this, $request);
+        $this->updateAndSave($order, $request);
+
+        return redirect()->route('orders.show', $order);
+    }
+
     private function updateAndSave(Order $order, Request $request): void
     {
-
-        RepairRequestController::update_status($request->requestID, 1);
-        $order->requestID = $request->requestID;
-        $order->employeeID = $request->employeeID;
+        if (is_numeric($request->requestID)) {
+            RepairRequestController::update_status((int)$request->requestID, 1);
+            $order->requestID = (int)$request->requestID;
+        }
+        if (is_numeric($request->employeeID)) {
+            $order->employeeID = (int)$request->employeeID;
+        }
         $order->startDatetime = $this->ensureIsString($request->startDatetime);
-        $order->estDuration = $request->estDuration;
-        $order->cost = $request->cost;
+        if (is_numeric($request->estDuration)) {
+            $order->estDuration = (int)$request->estDuration;
+        }
+        $images = ($request->existingImages != "") ? $request->existingImages : "";
+        if ($request->file('image') != null) {
+            if (is_array($request->file('image'))) {
+                foreach ($request->file('image') as $key => $file) {
+                    $path = $file->store('images');
+                    if ($path) {
+                        $images = $images.$path.'|';
+                    }
+                }
+            }
+        }
+        $order->images = $this->ensureIsStringOrNull($images);
+        if (is_numeric($request->cost)) {
+            $order->cost = (float)$request->cost;
+        }
         $order->save();
     }
     public function store(Request $request): RedirectResponse
     {
-        $this->validate($request, [
-            'requestID' => 'exists:repair_requests,id',
-            'employeeID' => 'exists:users,id',
-            'startDatetime' => 'required',
-            'estDuration' => 'required|numeric',
-            'cost' => 'required|numeric'
-        ]);
-
+        $this->validate_order($this, $request);
         $order = new Order();
         $this->updateAndSave($order, $request);
 
@@ -71,9 +91,22 @@ class OrderController extends Controller
         $request = RepairRequest::find($order->requestID);
         $userID = Auth::id();
         $userType = User::where('ID', $userID)->value('type');
-        if ($userType == 2 && $order->employeeID == $userID) {
-            return view('orders.edit')->with('order', $order)->with('request', $request);
+        if (isset($request->status)) {
+            if ($userType == 2 && $order->employeeID == $userID && $request->status == 1) {
+                return view('orders.edit')->with('order', $order)->with('request', $request);
+            }
         }
         return redirect()->route('orders.index');
+    }
+
+    private function validate_order(OrderController $oc, Request $request): void
+    {
+        $oc->validate($request, [
+            'requestID' => 'exists:repair_requests,id',
+            'employeeID' => 'exists:users,id',
+            'startDatetime' => 'required',
+            'estDuration' => 'required|numeric',
+            'cost' => 'required|numeric'
+        ]);
     }
 }

@@ -67,7 +67,7 @@
                                     @endswitch
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="{{ route('orders.show', $request) }}" class="text-indigo-600 hover:text-indigo-900">Details</a>
+                                    <a href="{{ route('orders.show', App\Models\Order::where('requestID', $request->id)->first() ) }}" class="text-indigo-600 hover:text-indigo-900">Details</a>
                                 </td>
                             </tr>
                         @endforeach
