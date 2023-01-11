@@ -42,6 +42,9 @@ class Test05_User_ShowRepairRequestCest
         $I->seeInDatabase('repair_requests', ['title' => $title,
             'model' => $model, 'description' => $description]);
 
+        $client_name = $I->grabColumnFromDatabase('users', 'name', ['id'=>$clientID])[0];
+
+        $I->see($client_name);
         $I->see($title);
         $I->see($model);
         $I->see($description);
