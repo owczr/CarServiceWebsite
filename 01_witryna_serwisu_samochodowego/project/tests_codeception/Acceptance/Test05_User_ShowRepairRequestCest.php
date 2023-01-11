@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use TestsCodeception\Support\AcceptanceTester;
 
-class Test05_RequestedRepairsCest
+class Test05_User_ShowRepairRequestCest
 {
     public function requestedRepairsTest(AcceptanceTester $I): void
     {
@@ -48,6 +48,7 @@ class Test05_RequestedRepairsCest
 
         foreach (explode('|', $images) as $image) {
             if ($image != "") {
+                $I->seeInSource($image);
                 $I->seeElement('img', ['alt'=>explode('/', $image)[1]]);
             }
         }
