@@ -67,6 +67,20 @@
                                     @markdown($request->description)
                                 </dd>
                             </div>
+                            @if($request->images != null)
+                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        Client images
+                                    </dt>
+                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                        @foreach(explode('|',$request->images) as $image)
+                                            @if($image != "")
+                                                <img src="{{ asset( "$image")  }}" style="width: 400px; margin-left: auto; margin-right: auto; display: block;" alt="{{ explode('/',$image)[1] }}"/>
+                                            @endif
+                                        @endforeach
+                                    </dd>
+                                </div>
+                            @endif
                             <div class="p-6 bg-white border-b border-gray-200">
                                 <form method="get" action="{{ route('requests.send_respond') }}">
 
