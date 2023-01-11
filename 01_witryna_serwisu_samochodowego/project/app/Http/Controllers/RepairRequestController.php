@@ -182,6 +182,17 @@ class RepairRequestController extends Controller
             $repairRequest->images = $img;
         }
 
+        if ($request->file('image')) {
+            //   FIXME
+            $request->validate([
+                'image' => 'mimes:jpeg,jpg,bmp,png'
+            ]);
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('public/Image'), $filename);
+            $repairRequest->images = $filename;
+        }
+
         $repairRequest->save();
     }
 
