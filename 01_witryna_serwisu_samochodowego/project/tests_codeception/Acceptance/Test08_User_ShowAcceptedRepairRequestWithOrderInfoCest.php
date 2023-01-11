@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use TestsCodeception\Support\AcceptanceTester;
 
-class Test08_User_ShowAccpetedRepairRequestWithOrderInfoCest
+class Test08_User_ShowAcceptedRepairRequestWithOrderInfoCest
 {
     public function requestedRepairsTest(AcceptanceTester $I): void
     {
