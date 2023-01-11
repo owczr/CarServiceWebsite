@@ -27,7 +27,8 @@
         "nunomaduro/larastan": "^2.2",
         "phpunit/phpunit": "^9.5.10",
         "sebastian/phpcpd": "^6.0",
-        "spatie/laravel-ignition": "^1.0"
+        "spatie/laravel-ignition": "^1.0",
+      "ext-http": "*"
     },
     "autoload": {
         "psr-4": {

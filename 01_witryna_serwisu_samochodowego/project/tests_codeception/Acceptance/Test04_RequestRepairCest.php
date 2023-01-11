@@ -44,7 +44,7 @@ class Test04_RequestRepairCest
         $I->click('Create');
 
         $I->seeInDatabase('repair_requests', ['title' => $title,
-            'model' => $model, 'description' => $description]);
+            'model' => $model, 'description' => $description, 'date'=>$date]);
 
         $I->see($title);
         $I->see($model);
