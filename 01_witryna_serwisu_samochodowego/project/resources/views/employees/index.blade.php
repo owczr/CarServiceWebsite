@@ -60,6 +60,13 @@
                     </tbody>
                 </table>
                 @endif
+                    <div class="flex items-center justify-end mt-4 px-4 pb-5">
+                        <form method="get" action="{{ route('employees.create') }}">
+                            <x-primary-button class="ml-4 mb-4">
+                                {{ __('Add new employee') }}
+                            </x-primary-button>
+                        </form>
+                    </div>
             </div>
         </div>
     </div>
