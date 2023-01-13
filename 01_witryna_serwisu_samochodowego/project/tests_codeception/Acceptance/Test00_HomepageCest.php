@@ -12,10 +12,8 @@ class Test00_HomepageCest
 
         $I->amOnPage('/');
 
-        $I->seeInTitle('Warsztat u chłopaków z baraków');
+        $I->seeInTitle('Better than Worst mechanics!');
 
-        $I->seeLink("Create a request", "https://laravel.com/docs");
-        $I->seeLink("Prizes", "https://laracasts.com");
-        $I->seeLink("stuff", "https://forge.laravel.com");
+        $I->seeLink("Create a request", "route('reguests')");
     }
 }
