@@ -47,6 +47,5 @@ Route::resource('/orders', \App\Http\Controllers\OrderController::class)->middle
 
 Route::get('requests/create', [\App\Http\Controllers\RepairRequestController::class, 'create'])->name('requests.create');
 
-Route::get('employees/show', [ \App\Http\Controllers\EmployeeController::class, 'show'])->name('employees.show');
-// Route::get('employees', [ \App\Http\Controllers\EmployeeController::class, 'index'])->name('employees.index');
 Route::resource('/employees', \App\Http\Controllers\EmployeeController::class)->middleware(['auth']);
+Route::get('employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'show'])->name('employees.show');
