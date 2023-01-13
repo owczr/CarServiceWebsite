@@ -4,21 +4,24 @@ namespace TestsCodeception\Acceptance;
 
 use TestsCodeception\Support\AcceptanceTester;
 
-class Test02_LoginCest
+class Test20_User_DashboardCest
 {
-    public function loginTest(AcceptanceTester $I): void
+    public function dashboardTest(AcceptanceTester $I): void
     {
-        $I->wantTo('login with existing user');
-        $I->amOnPage('/dashboard');
+        $I->wantTo("See my (user's) dashboard page");
+
+        $I->amOnPage('/login');
         $I->seeCurrentUrlEquals('/login');
         $I->fillField('email', 'client1@gmail.com');
-        $I->fillField('password', 's');
-        $I->click('Log in');
-        $I->see("These credentials do not match our records.");
         $I->fillField('password', 'secret');
         $I->click('Log in');
         $I->seeCurrentUrlEquals('/dashboard');
-        $I->see('Client 1');
+
         $I->see("Welcome to Better than worst mechanics!");
+
+        $I->see("Requests & Orders");
+        $I->click("Requests & Orders");
+        $I->seeCurrentUrlEquals('/requests');
+        $I->see('List of all services');
     }
 }
