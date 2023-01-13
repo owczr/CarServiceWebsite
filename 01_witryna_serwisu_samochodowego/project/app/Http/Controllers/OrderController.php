@@ -7,6 +7,7 @@ use App\Helpers\ManageImages;
 use App\Models\Order;
 use App\Models\RepairRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,34 @@ class OrderController extends Controller
         }
         return redirect()->route('requests.index');
     }
+
+    public function calendar(): View
+    {
+        $events = [];
+
+        $orders = Order::where('employeeID', Auth::id())->get();
+
+        foreach ($orders as $order) {
+            $request = RepairRequest::find($order->requestID);
+            if ($request) {
+                if (is_numeric($request->clientID)) {
+                    $clientID = (int)$request->clientID;
+                }
+                if (is_numeric($request->id)) {
+                    $requestID = (int)$request->id;
+                }
+                $events[] = [
+                    'id' => $requestID,
+                    'title' => $this->ensureIsString($request->title).' for '.User::where('id', $clientID)->value('name'),
+                    'start' => $order->startDatetime,
+                    'end' => (string)Carbon::parse($order->startDatetime)->addHours($order->estDuration),
+                    'url' => route('orders.show', $order),
+                ];
+            }
+        }
+        return view('orders.calendar', compact('events'));
+    }
+
     public function show(Order $order): RedirectResponse | View
     {
         $request = RepairRequest::find($order->requestID);

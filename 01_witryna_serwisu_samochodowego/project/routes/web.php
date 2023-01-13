@@ -42,6 +42,7 @@ Route::get('requests/{request}/reject', [\App\Http\Controllers\RepairRequestCont
 Route::get('requests/{request}/finish', [\App\Http\Controllers\RepairRequestController::class, 'finish'])->name('requests.finish');
 Route::resource('/requests', \App\Http\Controllers\RepairRequestController::class)->middleware(['auth']);
 
+Route::get('orders/calendar', [\App\Http\Controllers\OrderController::class, 'calendar'])->name('orders.calendar');
 Route::resource('/orders', \App\Http\Controllers\OrderController::class)->middleware(['auth']);
 
 Route::get('requests/create', [\App\Http\Controllers\RepairRequestController::class, 'create'])->name('requests.create');
