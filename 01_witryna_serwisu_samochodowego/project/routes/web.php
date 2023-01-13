@@ -49,3 +49,5 @@ Route::get('requests/create', [\App\Http\Controllers\RepairRequestController::cl
 
 Route::resource('/employees', \App\Http\Controllers\EmployeeController::class)->middleware(['auth']);
 Route::get('employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'show'])->name('employees.show');
+Route::get('employees/create', [\App\Http\Controllers\EmployeeController::class, 'create'])->name('employees.create');
+
