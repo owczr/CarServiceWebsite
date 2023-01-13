@@ -21,24 +21,29 @@ class EmployeeController extends Controller
 
     public function index(): View | RedirectResponse
     {
-        $userID = Auth::id();
-        $userType = User::where('ID', $userID)->value('type');
-        $users = User::orderBy('id', 'desc')->get();
-        if ($userType == 3) {
-            return view('employees.index')->with('users', $users);
+        if (!$this->check_admin()) {
+            return redirect()->route('welcome');
         }
-        return view('welcome');
+        $users = User::orderBy('id', 'desc')->get();
+        return view('employees.index')->with('users', $users);
     }
 
 
     public function show(int $id): RedirectResponse | View
     {
+        if (!$this->check_admin()) {
+            return redirect()->route('welcome');
+        }
+        $this->check_admin();
         $user = User::find($id);
         return view('employees.show')->with('user', $user);
     }
 
-    public function create(): View
+    public function create(): View | RedirectResponse
     {
+        if (!$this->check_admin()) {
+            return redirect()->route('welcome');
+        }
         return view('employees.create');
     }
 
@@ -49,7 +54,8 @@ class EmployeeController extends Controller
         $user->phone = $this->ensureIsString($request->phone);
         $user->type = 2;
         if (strlen($user->name) > 3) {
-            $password =  substr($user->name, 0, 2).substr($user->phone, 0, 4).substr($user->name, -2);
+            $password =  substr($user->name, 0, 2).
+                substr($user->phone, 0, 4).substr($user->name, -2);
         } else {
             $password = 'pleasechangemeasap';
         }
@@ -72,5 +78,15 @@ class EmployeeController extends Controller
         $this->updateAndSave($user, $request);
 
         return redirect()->route('employees.show', $user);
+    }
+
+    private function check_admin(): Bool
+    {
+        $userID = Auth::id();
+        $userType = User::where('ID', $userID)->value('type');
+        if ($userType != 3) {
+            return false;
+        }
+        return true;
     }
 }
