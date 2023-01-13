@@ -48,7 +48,12 @@ class EmployeeController extends Controller
         $user->email = $this->ensureIsString($request->email);
         $user->phone = $this->ensureIsString($request->phone);
         $user->type = 2;
-        $user->password = 'qwerty123';
+        if (strlen($user->name) > 3) {
+            $password =  substr($user->name, 0, 2).substr($user->phone, 0, 4).substr($user->name, -2);
+        } else {
+            $password = 'pleasechangemeasap';
+        }
+        $user->password = $password;
         $user->save();
     }
 
