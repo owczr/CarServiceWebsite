@@ -48,6 +48,6 @@ class Test03_RegisterCest
 
         $I->seeCurrentUrlEquals('/dashboard');
         $I->see($userName);
-        $I->see("You're logged in!");
+        $I->see("Welcome to Better than worst mechanics!");
     }
 }
