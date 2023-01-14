@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Better than Worst mechanics!</title>
+        <title>Better than Worse mechanics</title>
 
         <!-- Fonts -->
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-center">
-                        <h1 class="big-headline" style="color: darkblue">Better than Worse Mechanic</h1>
+                        <h1 class="big-headline" style="color: darkblue">Better than Worse Mechanics</h1>
                 </div>
 
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
@@ -65,7 +65,7 @@
 
                             <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    create a request to your mechanic.
+                                    create a request to your mechanics.
                                 </div>
                             </div>
                         </div>

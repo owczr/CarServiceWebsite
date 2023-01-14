@@ -30,7 +30,9 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::resource('gallery', \App\Http\Controllers\CommentController::class);
+Route::get('gallery', function(){
+    return view('gallery.index');
+})->name('gallery.index');
 Route::resource('/books', \App\Http\Controllers\BookController::class)->middleware(['auth']);
 
 
