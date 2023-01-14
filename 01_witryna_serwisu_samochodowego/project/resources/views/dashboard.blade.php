@@ -4,12 +4,46 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
+    <style>
+        li span{
+            position: relative;
+        }
+        li span:hover{
+            position: fixed;
+            animation: both infinite;
+            animation-play-state: running;
+            background: none;
+        }
+        li span::before{
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            border-left: 2px solid #553c9a;
+            background: #fdfdfe;
+            animation: cursor 1s infinite, typing 1.5s normal forwards ease-in-out;
+        }
+        @keyframes cursor{
+            0%, 100%{border-color: transparent;}
+            50%{border-color: #553c9a;}
+        }
+        @keyframes typing{
+            100%{ left: 22ch;} /*Use the number of characters in the longest word*/
+        }
+    </style>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Welcome to Better than worst mechanics!") }}
+    <div class="py-12" style="size: auto">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" style="size: auto">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="size: auto">
+                <div class="p-6 text-gray-900" style="size: auto">
+
+                    <div style="display: inline-flex;">
+                        <div style="  font-size: 50px; font-weight: 500; color: grey;">Welcome to</div>
+                        <ul style="  margin-left: 20px;line-height: 90px; height: 90px;">
+                            <li style="  color: darkblue;font-size: 60px;font-weight: 600;list-style: none;position: relative;"><span>Better than Worse mechanic</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
