@@ -1,23 +1,65 @@
-<x-guest-layout>
+<x-app-layout>
+    <style>
+        *, *:after, *:before {
+            padding:0;
+            margin:0;
+            font-family:Arial;
+        }
+        ul {
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            margin:auto;
+            list-style:none;
+            width:1250px;
+            height:450px;
+            border-radius:3px;
+            overflow:hidden;
+            box-shadow:1px 1px 3px 1px;
+        }
+        li {
+            position:relative;
+            width:250px;
+            height:450px;
+            float:left;
+            border-left:1px solid white;
+            -webkit-transition:all 0.7s;
+            -moz-transition:all 0.7s;
+            transition:all 0.7s;
+            box-shadow:-2px 0 10px 2px;
+        }
+        ul li:first-child {
+            border:none;
+        }
+        img {
+            width:800px;
+            height:450px;
+            filter: grayscale(1);
+        }
+        img:hover{
+            filter: grayscale(0);
+        }
+        ul:hover li {
+            width:125px;
+        }
+        ul li:hover {
+            width:750px;
+        }
+    </style>
     {{-- adapted from resources/views/components/auth-card.blade.php --}}
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div>
-            <h1>Comments</h1>
-        </div>
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            {{-- created based on https://flowbite.com/docs/typography/lists/ --}}
-            <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
-                @foreach($comments as $comment)
-                <div class="flex flex-col pb-3">
-                    <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                        <a href="{{ route('gallery.show', $comment) }}">{{ $comment->title }}</a>
-                    </dt>
-                    <dd class="text-lg font-semibold">
-                         @markdown($comment->text)
-                    </dd>
-                </div>
-                @endforeach
-            </dl>
-        </div>
-    </div>
-</x-guest-layout>
+    <ul>
+        <li>
+            <img src='staticImages/Obrazek1.jpg'/></li>
+        <li>
+            <img src='staticImages/Obrazek2.jpg'/></li>
+        <li>
+            <img src='staticImages/Obrazek3.jpg'/></li>
+        <li>
+            <img src='staticImages/Obrazek4.jpg'/></li>
+        <li>
+            <img src='staticImages/Obrazek5.jpg'/></li>
+    </ul>
+
+</x-app-layout>

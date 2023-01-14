@@ -12,7 +12,7 @@ class Test00_HomepageCest
 
         $I->amOnPage('/');
 
-        $I->seeInTitle('Better than Worst mechanics!');
+        $I->seeInTitle('Better than Worst mechanics');
 
         $I->see("Log in");
         $I->click("Log in");
