@@ -18,6 +18,19 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('requests.index')" :active="request()->routeIs('dashboard')">
+                        {{ __('Requests') }}
+                    </x-nav-link>
+                </div>
+                @switch(App\Models\User::where('id',Auth::id())->value('type'))
+                    @case(2)
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('orders.calendar')" :active="request()->routeIs('dashboard')">
+                        {{ __('Calendar') }}
+                    </x-nav-link>
+                </div>
+                @endswitch
             </div>
 
             <!-- Settings Dropdown -->
