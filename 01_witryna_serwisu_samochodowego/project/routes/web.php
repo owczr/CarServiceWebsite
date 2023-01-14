@@ -33,6 +33,10 @@ require __DIR__.'/auth.php';
 Route::get('gallery', function(){
     return view('gallery.index');
 })->name('gallery.index');
+
+Route::get('prices', function(){
+    return view('prices');
+})->name('prices');
 Route::resource('/books', \App\Http\Controllers\BookController::class)->middleware(['auth']);
 
 

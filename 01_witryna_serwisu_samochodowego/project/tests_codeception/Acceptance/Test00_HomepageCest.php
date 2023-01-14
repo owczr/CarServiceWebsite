@@ -12,7 +12,7 @@ class Test00_HomepageCest
 
         $I->amOnPage('/');
 
-        $I->seeInTitle('Better than Worst mechanics');
+        $I->seeInTitle('Better than Worse mechanics');
 
         $I->see("Log in");
         $I->click("Log in");
@@ -29,5 +29,19 @@ class Test00_HomepageCest
         $I->see("Create a request");
         $I->click("Create a request");
         $I->seeCurrentUrlEquals('/login');
+
+        $I->amOnPage('/');
+
+        $I->see("Gallery");
+        $I->click("Gallery");
+
+        $I->amOnPage('/');
+
+        $I->see("Prices");
+        $I->click("Prices");
+
+        $I->amOnPage('/');
+        $I->see("Contact");
+
     }
 }
