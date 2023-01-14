@@ -8,12 +8,7 @@
         li span{
             position: relative;
         }
-        li span:hover{
-            position: fixed;
-            animation: both infinite;
-            animation-play-state: running;
-            background: none;
-        }
+
         li span::before{
             content: '';
             position: absolute;
@@ -29,7 +24,7 @@
             50%{border-color: #553c9a;}
         }
         @keyframes typing{
-            100%{ left: 22ch;} /*Use the number of characters in the longest word*/
+            100%{ left: 23ch;} /*Use the number of characters in the longest word*/
         }
     </style>
 
@@ -41,7 +36,7 @@
                     <div style="display: inline-flex;">
                         <div style="  font-size: 50px; font-weight: 500; color: grey;">Welcome to</div>
                         <ul style="  margin-left: 20px;line-height: 90px; height: 90px;">
-                            <li style="  color: darkblue;font-size: 60px;font-weight: 600;list-style: none;position: relative;"><span>Better than Worse mechanic</span></li>
+                            <li style="  color: darkblue;font-size: 60px;font-weight: 600;list-style: none;position: relative;"><span>Better than Worse mechanics</span></li>
                         </ul>
                     </div>
                 </div>
