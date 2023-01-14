@@ -7,7 +7,7 @@
         <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             @markdown($comment->text)
             {{-- created based on https://flowbite.com/docs/typography/links/ --}}
-            <a href="{{ route('comments.index') }}"
+            <a href="{{ route('gallery.index') }}"
                class="font-medium text-blue-600 dark:text-blue-500 hover:underline mt-8">All comments...</a>
         </div>
     </div>

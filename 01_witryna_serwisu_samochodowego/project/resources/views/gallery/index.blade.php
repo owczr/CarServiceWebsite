@@ -10,7 +10,7 @@
                 @foreach($comments as $comment)
                 <div class="flex flex-col pb-3">
                     <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                        <a href="{{ route('comments.show', $comment) }}">{{ $comment->title }}</a>
+                        <a href="{{ route('gallery.show', $comment) }}">{{ $comment->title }}</a>
                     </dt>
                     <dd class="text-lg font-semibold">
                          @markdown($comment->text)
