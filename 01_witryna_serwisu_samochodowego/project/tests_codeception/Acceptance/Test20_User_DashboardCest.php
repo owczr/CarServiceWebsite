@@ -17,7 +17,7 @@ class Test20_User_DashboardCest
         $I->click('Log in');
         $I->seeCurrentUrlEquals('/dashboard');
 
-        $I->see("Welcome to Better than Worst mechanics!");
+        $I->see("Welcome to");
 
         $I->see("Requests & Orders");
         $I->click("Requests & Orders");

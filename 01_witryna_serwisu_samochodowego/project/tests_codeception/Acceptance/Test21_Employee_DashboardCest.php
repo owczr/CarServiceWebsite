@@ -17,15 +17,15 @@ class Test21_Employee_DashboardCest
         $I->click('Log in');
         $I->seeCurrentUrlEquals('/dashboard');
 
-        $I->see("Requests");
-        $I->click("Requests");
+        $I->see("List of requests");
+        $I->click("List of requests");
         $I->seeCurrentUrlEquals('/requests');
         $I->see('List of all waiting requests');
 
         $I->amOnPage('/dashboard');
 
-        $I->see("Orders");
-        $I->click("Orders");
+        $I->see("My orders");
+        $I->click("My orders");
         $I->seeCurrentUrlEquals('/orders');
         $I->see('List of all my orders');
 
