@@ -12,7 +12,7 @@ class Test18_Admin_ShowAllEmployeesCest
 {
     public function employeesTest(AcceptanceTester $I): void
     {
-        $I->wantTo('See list of employees');
+        $I->wantTo('See list of employees and theirs details');
 
         $I->amOnPage('/login');
         $I->seeCurrentUrlEquals('/login');
@@ -32,17 +32,35 @@ class Test18_Admin_ShowAllEmployeesCest
         $I->see('Email');
         $I->see('Phone');
 
+        $employeeID = 123;
+        $name = 'Employee 123';
+        $email = 'employee123@gmail.com';
+        $password = 'secret';
+        $type = 2;
+        $phone = '123123123';
+
+        $id = $I->haveInDatabase('users', ['id' => $employeeID, 'name' => $name,
+            'email' => $email, 'password' => $password, 'type' => $type, 'phone' => $phone]);
+
+        $I->amOnPage('/employees/' . $id);
+        $I->seeCurrentUrlEquals('/employees/' . $id);
+        $I->see('Employee no #'.$employeeID.': '.$name);
+        $I->see('Detailed information.');
+        $I->see($name);
+        $I->see($email);
+        $I->see($phone);
+
+        $I->amOnPage('/employees');
+
         $allEmployees_ids = $I->grabColumnFromDatabase('users', 'id', ['type'=>2]);
 
         $I->seeNumberOfElements('tr', count($allEmployees_ids)+1); # +1 because of header
 
-        if (!empty($allEmployees_ids)) {
-            $employeeID = end($allEmployees_ids);
-            $I->see("Details");
-            $I->click("Details");
-            $I->seeCurrentUrlEquals('/employees/' . $employeeID);
-            $I->amOnPage('/employees');
-        }
+        $employeeID = end($allEmployees_ids);
+        $I->see("Details");
+        $I->click("Details");
+        $I->seeCurrentUrlEquals('/employees/' . $employeeID);
+        $I->amOnPage('/employees');
 
         foreach ($allEmployees_ids as $id) {
             $employee_name = $I->grabColumnFromDatabase('users', 'name', ['id'=>$id])[0];
