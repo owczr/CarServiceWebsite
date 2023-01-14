@@ -24,6 +24,12 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
+            .bottomcorner{
+                position:absolute;
+                bottom:0;
+                right:0;
+                padding: 10px;
+            }
         </style>
     </head>
     <body class="antialiased">
@@ -44,7 +50,7 @@
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-center">
-                        <h1 class="big-headline">Better than Worse Mechanic</h1>
+                        <h1 class="big-headline" style="color: darkblue">Better than Worse Mechanic</h1>
                 </div>
 
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
@@ -69,12 +75,12 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
                                     <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
                                     <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                </svg>                                <div class="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white" style="font-size: 1.5em">Cadre</div>
+                                </svg>                                <div class="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white" style="font-size: 1.5em">Stuff</div>
                             </div>
 
                             <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Marcin Słyś, Jakub Owczarek, Shamte Ndiaye, Patryk Sroka - <a href="https://forge.laravel.com" class="underline">stuff</a>
+                                    Marcin Słyś, Jakub Owczarek, Shamte Ndiaye, Patryk Sroka
                                 </div>
                             </div>
                         </div>
@@ -82,8 +88,17 @@
 
                     </div>
                 </div>
-
-
+            </div>
+            <div class="bottomcorner">
+                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                    <h2 style="display: flex; justify-content: center">Contact</h2>
+                </div>
+                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm" style="display: flex; justify-content: center">
+                    Telephone: +48 123 456 789
+                </div>
+                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                    E-mail: BTWMechanics@gmail.com
+                </div>
             </div>
         </div>
     </body>
