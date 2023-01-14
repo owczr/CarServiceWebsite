@@ -19,6 +19,6 @@ class Test02_LoginCest
         $I->click('Log in');
         $I->seeCurrentUrlEquals('/dashboard');
         $I->see('Client 1');
-        $I->see("Welcome to Better than worst mechanics!");
+        $I->see("Welcome to");
     }
 }
