@@ -18,13 +18,26 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('requests.index')" :active="request()->routeIs('dashboard')">
-                        {{ __('Requests') }}
-                    </x-nav-link>
-                </div>
+                @if(Auth::id())
                 @switch(App\Models\User::where('id',Auth::id())->value('type'))
+                    @case(1)
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('requests.index')" :active="request()->routeIs('dashboard')">
+                                {{ __('Requests') }}
+                            </x-nav-link>
+                        </div>
+                    @break
                     @case(2)
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('requests.index')" :active="request()->routeIs('dashboard')">
+                                {{ __('Requests') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
+                                {{ __('Orders') }}
+                            </x-nav-link>
+                        </div>
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" style="margin-top: auto; margin-bottom: auto">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
                                 <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
@@ -38,6 +51,11 @@
                 </div>
                     @break
                     @case(3)
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('requests.index')" :active="request()->routeIs('dashboard')">
+                                {{ __('Requests & Orders') }}
+                            </x-nav-link>
+                        </div>
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" style="margin-top: auto; margin-bottom: auto">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
                                 <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
@@ -51,6 +69,7 @@
                         </div>
                     @break
                 @endswitch
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -58,8 +77,9 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            @if(Auth::id())
                             <div>{{ Auth::user()->name }}</div>
-
+                            @endif
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -110,8 +130,10 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
+                @if(Auth::id())
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                @endif
             </div>
 
             <div class="mt-3 space-y-1">
