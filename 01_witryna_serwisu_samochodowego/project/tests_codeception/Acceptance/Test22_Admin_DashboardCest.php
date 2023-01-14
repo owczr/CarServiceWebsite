@@ -27,6 +27,6 @@ class Test22_Admin_DashboardCest
         $I->see("Employees");
         $I->click("Employees");
         $I->seeCurrentUrlEquals('/employees');
-        $I->see('List of all my employees');
+        $I->see('List of employees');
     }
 }
