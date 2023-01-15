@@ -32,19 +32,18 @@ class Test18_Admin_ShowAllEmployeesCest
         $I->see('Email');
         $I->see('Phone');
 
-        $employeeID = 123;
         $name = 'Employee 123';
         $email = 'employee123@gmail.com';
         $password = 'secret';
         $type = 2;
         $phone = '123123123';
 
-        $id = $I->haveInDatabase('users', ['id' => $employeeID, 'name' => $name,
-            'email' => $email, 'password' => $password, 'type' => $type, 'phone' => $phone]);
+        $id = $I->haveInDatabase('users', ['name' => $name, 'email' => $email,
+            'password' => $password, 'type' => $type, 'phone' => $phone]);
 
         $I->amOnPage('/employees/' . $id);
         $I->seeCurrentUrlEquals('/employees/' . $id);
-        $I->see('Employee no #'.$employeeID.': '.$name);
+        $I->see('Employee no #'.$id.': '.$name);
         $I->see('Detailed information.');
         $I->see($name);
         $I->see($email);
