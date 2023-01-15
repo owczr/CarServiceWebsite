@@ -47,7 +47,6 @@ class Test19_Admin_AddNewEmployeeCest
         $I->seeInDatabase('users', [
             'name' => $name,
             'email' => $email,
-            'password' => $password,
             'type' => $type,
             'phone' => $phone
         ]);

@@ -13,7 +13,7 @@ class Test01_GalleryCest
         $I->see("Gallery");
         $I->click("Gallery");
         $I->seeCurrentUrlEquals('/gallery');
-        $I->see('','li');
+        $I->see('', 'li');
         $I->seeNumberOfElements('img', 5);
     }
 }

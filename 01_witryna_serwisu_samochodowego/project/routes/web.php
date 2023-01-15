@@ -30,14 +30,13 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('gallery', function(){
+Route::get('gallery', function () {
     return view('gallery.index');
 })->name('gallery.index');
 
-Route::get('prices', function(){
+Route::get('prices', function () {
     return view('prices');
 })->name('prices');
-Route::resource('/books', \App\Http\Controllers\BookController::class)->middleware(['auth']);
 
 
 Route::get('requests/{request}/accept_request', [\App\Http\Controllers\RepairRequestController::class, 'accept_request'])->name('requests.accept_request');
@@ -56,4 +55,3 @@ Route::get('requests/create', [\App\Http\Controllers\RepairRequestController::cl
 Route::resource('/employees', \App\Http\Controllers\EmployeeController::class)->middleware(['auth']);
 Route::get('employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'show'])->name('employees.show');
 Route::get('employees/create', [\App\Http\Controllers\EmployeeController::class, 'create'])->name('employees.create');
-

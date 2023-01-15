@@ -22,7 +22,7 @@ class Test24_Admin_EmployeeListCest
         $email = 'employee_of_the_month@gmail.com';
         $password = 'qwerty123';
         $type = 2;
-        $phone = 420420420;
+        $phone = '420420420';
 
         $userID = $I->haveInDatabase('users', ['id' => $id, 'name' => $name,
             'email' => $email, 'password' => $password, 'type' => $type, 'phone' => $phone]);
@@ -30,7 +30,7 @@ class Test24_Admin_EmployeeListCest
         $I->amOnPage('/employees');
         $I->seeCurrentUrlEquals('/employees');
 
-        $I->see($id);
+        $I->see((string)$id);
         $I->see($name);
         $I->see($email);
         $I->see($phone);

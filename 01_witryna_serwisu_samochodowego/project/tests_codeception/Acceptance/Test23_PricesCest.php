@@ -13,11 +13,10 @@ class Test23_PricesCest
         $I->see("Prices");
         $I->click("Prices");
         $I->seeCurrentUrlEquals('/prices');
-        $I->see('','ul');
-        $I->see('','li');
+        $I->seeElement('table');
         $I->see('JOB');
         $I->see('AMOUNT DUE');
         $I->see('APPROXIMATE TIME');
-        $I->seeNumberOfElements('li', 5);
+        $I->seeNumberOfElements('tr', 5);
     }
 }

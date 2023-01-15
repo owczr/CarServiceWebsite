@@ -32,7 +32,7 @@ class OrderController extends Controller
         return redirect()->route('requests.index');
     }
 
-    public function calendar(): View
+    public function calendar(): View | RedirectResponse
     {
         $events = [];
 
@@ -56,7 +56,11 @@ class OrderController extends Controller
                 ];
             }
         }
-        return view('orders.calendar', compact('events'));
+        if (User::where('id', Auth::id())->value('type') == 2) {
+            return view('orders.calendar', compact('events'));
+        } else {
+            return redirect()->route('requests.index');
+        }
     }
 
     public function show(Order $order): RedirectResponse | View
