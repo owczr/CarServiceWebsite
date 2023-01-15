@@ -22,7 +22,7 @@ class Test26_Admin_EmployeeDetailsCest
         $email = 'employee_of_the_month@gmail.com';
         $password = 'qwerty123';
         $type = 2;
-        $phone = 420420420;
+        $phone = '420420420';
 
         $I->haveInDatabase('users', ['id' => $id, 'name' => $name,
             'email' => $email, 'password' => $password, 'type' => $type, 'phone' => $phone]);
@@ -35,7 +35,7 @@ class Test26_Admin_EmployeeDetailsCest
 
         $I->seeCurrentUrlEquals('/employees/'.$id);
 
-        $I->see($id);
+        $I->see((string)$id);
         $I->see($name);
         $I->see($email);
         $I->see($phone);

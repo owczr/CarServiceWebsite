@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -53,13 +54,13 @@ class EmployeeController extends Controller
         $user->email = $this->ensureIsString($request->email);
         $user->phone = $this->ensureIsString($request->phone);
         $user->type = 2;
-        if (strlen($user->name) > 3) {
+        if ($user-> name && $user->phone && strlen($user->name) > 3) {
             $password =  substr($user->name, 0, 2).
                 substr($user->phone, 0, 4).substr($user->name, -2);
         } else {
             $password = 'pleasechangemeasap';
         }
-        $user->password = $password;
+        $user->password = Hash::make($password);
         $user->save();
     }
 

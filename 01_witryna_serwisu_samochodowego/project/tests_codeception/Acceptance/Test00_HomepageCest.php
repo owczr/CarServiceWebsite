@@ -42,6 +42,5 @@ class Test00_HomepageCest
 
         $I->amOnPage('/');
         $I->see("Contact");
-
     }
 }

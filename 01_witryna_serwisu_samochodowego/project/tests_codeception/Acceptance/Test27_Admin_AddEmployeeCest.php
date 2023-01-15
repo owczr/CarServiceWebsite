@@ -20,7 +20,7 @@ class Test27_Admin_AddEmployeeCest
         $name = 'Employee of the month';
         $email = 'employee_of_the_month@gmail.com';
         $type = 2;
-        $phone = 420420420;
+        $phone = '420420420';
 
         $I->dontSeeInDatabase('users', ['name' => $name,
             'email' => $email, 'type' => $type, 'phone' => $phone]);
